@@ -112,4 +112,4 @@ i.	jButton (btnDelete)
 -	btnUpdate akan melakukan query Update table menu berdasarkan Row id. Jika berhasil kosongkan table
 -	btnDelete akan melakukan query Delete table menu berdasarkan Row id. Jika berhasil kosongkan table
 -	jangan lupa berikan JOptionPane Ketika Berhasil/Gagal melakukan CRUD
-
+bayu
