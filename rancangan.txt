@@ -1,0 +1,115 @@
+-- Membuat database
+CREATE DATABASE IF NOT EXISTS restoran;
+USE restoran;
+
+-- Tabel menu
+CREATE TABLE menu (
+    id_menu INT AUTO_INCREMENT PRIMARY KEY,
+    nama_menu VARCHAR(100) NOT NULL,
+    kategori VARCHAR(50) NOT NULL,
+    harga DECIMAL(10,2) NOT NULL
+);
+
+-- Tabel pelanggan
+CREATE TABLE pelanggan (
+    id_pelanggan INT AUTO_INCREMENT PRIMARY KEY,
+    nama_pelanggan VARCHAR(100) NOT NULL,
+    no_telepon VARCHAR(15) NOT NULL,
+    gender ENUM(‘pria’,’wanita’) DEFAULT ‘pria’
+);
+
+-- Tabel pesanan
+CREATE TABLE pesanan (
+    id_pesanan INT AUTO_INCREMENT PRIMARY KEY,
+    id_pelanggan INT NOT NULL,
+    tanggal_pesanan DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pending', 'selesai', 'batal') DEFAULT 'pending',
+    FOREIGN KEY (id_pelanggan) REFERENCES pelanggan(id_pelanggan) ON DELETE CASCADE
+);
+
+-- Tabel detail_pesanan
+CREATE TABLE detail_pesanan (
+    id_detail INT AUTO_INCREMENT PRIMARY KEY,
+    id_pesanan INT NOT NULL,
+    id_menu INT NOT NULL,
+    jumlah INT NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_pesanan) REFERENCES pesanan(id_pesanan) ON DELETE CASCADE,
+    FOREIGN KEY (id_menu) REFERENCES menu(id_menu) ON DELETE CASCADE
+);
+-- Tabel admin
+CREATE TABLE admin (
+ id_admin INT AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(50) NOT NULL UNIQUE,
+password VARCHAR(255) NOT NULL
+);
+
+-- Tabel transaksi
+CREATE TABLE transaksi (
+    id_transaksi INT AUTO_INCREMENT PRIMARY KEY,
+    id_admin INT NOT NULL,
+    id_pesanan INT NOT NULL,
+    total_bayar DECIMAL(10,2) NOT NULL,
+    metode_bayar ENUM('tunai', 'kartu', 'e-wallet') NOT NULL,
+    tanggal_bayar DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_pesanan) REFERENCES pesanan(id_pesanan) ON DELETE CASCADE,
+    ADD FOREIGN KEY (id_admin) REFERENCES admin(id_admin) ON DELETE CASCADE
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fitur
+1.	Login
+Buat view Login Dimana isinya:
+a.	textField (txtUsername)
+b.	passwordField (txtPassword)
+c.	jButton (btnLogin)
+d.	jButton (btnDaftar)
+-	btnLogin akan diteruskan ke view dashboard
+-	btnDaftar akan diteruskan ke view daftar
+2.	Daftar
+Berisi :
+a.	textField (txtUsername)
+b.	passwordField (txtPassword)
+c.	jButton (btnDaftar)
+d.	jButton (btnLogin)
+-	btnDaftar akan melakukan query membuat akun admin kemudian redirect lagi ke login view
+-	btnLogin akan diteruskan Kembali ke view login
+3.	Dashboard
+Halaman menggunakan jTabbedPane berisi
+1.	jPanel (pnlWelcome)
+2.	jPanel (pnlMenu)
+3.	jPanel (pnlPelanggan)
+4.	jPanel (pnlTransaksi)
+5.	jPanel (pnlLaporan)
+
+4.	Welcome page
+Berisi hanya label yang bertuliskan welocome dan username yang login
+5.	Menu Page
+Berisi:
+a.	textField (txtNamaMenu)
+b.	jComboBox (cmbKategori)
+c.	textField (txtHarga)
+d.	jButton (btnCreate)
+e.	txtField (txtFindNama)
+f.	jButton (btnFindNama)
+g.	jTable (tblMenu)
+h.	jButton (btnUpdate)
+i.	jButton (btnDelete)
+-	btnCreate akan mendaptkan data dari txtNamaMenu, cmbKategori,txtHarga kemudian melakukan query INSERT ke table menu, jangan lupa kasih validasi agar semua data terisi dan txtHarga berisi angka
+-	btnFindNama akan mendapatkan string/data dari txtFindNama kemudian melakukan query SELECT ke table menu Berdasarkan nama_menu, jika ada maka akan disimpan dalam bentuk objek/array dan ditampilkan ke table
+-	btnUpdate akan melakukan query Update table menu berdasarkan Row id. Jika berhasil kosongkan table
+-	btnDelete akan melakukan query Delete table menu berdasarkan Row id. Jika berhasil kosongkan table
+-	jangan lupa berikan JOptionPane Ketika Berhasil/Gagal melakukan CRUD
+
