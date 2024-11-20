@@ -96,6 +96,7 @@ Halaman menggunakan jTabbedPane berisi
 
 4.	Welcome page
 Berisi hanya label yang bertuliskan welocome dan username yang login
+
 5.	Menu Page
 Berisi:
 a.	textField (txtNamaMenu)
@@ -112,4 +113,9 @@ i.	jButton (btnDelete)
 -	btnUpdate akan melakukan query Update table menu berdasarkan Row id. Jika berhasil kosongkan table
 -	btnDelete akan melakukan query Delete table menu berdasarkan Row id. Jika berhasil kosongkan table
 -	jangan lupa berikan JOptionPane Ketika Berhasil/Gagal melakukan CRUD
-bayu
+
+5. Pelanggan Page
+
+sama seperti Menu page tapi backendnya beda
+
+6. Transaksi Page
