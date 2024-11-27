@@ -1,9 +1,12 @@
 package model;
 
 public class Menu {
+    private int id;
     private String nama_menu;
     private String kategori;
     private double harga;
+    private int stok;
+    private String foto;
 
     public Menu() {
 
@@ -37,5 +40,29 @@ public class Menu {
 
     public void setHarga(double harga) {
         this.harga = harga;
+    }
+
+    public int getStok() {
+        return stok;
+    }
+
+    public void setStok(int stok) {
+        this.stok = stok;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
