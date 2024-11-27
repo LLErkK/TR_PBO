@@ -13,7 +13,7 @@ public class MenuUtama extends javax.swing.JFrame {
     /**
      * Creates new form MenuUtama
      */
-    public MenuUtama() {
+    public MenuUtama(int id) {
         initComponents();
     }
 
@@ -306,7 +306,7 @@ public class MenuUtama extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuUtama().setVisible(true);
+                new MenuUtama(0).setVisible(true);
             }
         });
     }

@@ -4,6 +4,10 @@
  */
 package view;
 
+import controller.AuthController;
+
+import javax.swing.*;
+
 /**
  *
  * @author USER
@@ -93,6 +97,11 @@ public class FormDaftar extends javax.swing.JFrame {
         jLabel4.setText("Belum punya akun?");
 
         btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Username");
@@ -186,8 +195,26 @@ public class FormDaftar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDaftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDaftarActionPerformed
-        // TODO add your handling code here:
+        String email = this.txtUsername1.getText();
+        String username = this.txtUsername.getText();
+        String password = this.txtPassword.getText();
+        AuthController ac = new AuthController();
+        boolean status = ac.signIn(email,username,password);
+        if(status){
+            JOptionPane.showMessageDialog(this,"Berhasil Membuat Akun");
+            this.setVisible(false);
+            FormLogin view = new FormLogin();
+            view.setVisible(true);
+        }else {
+            JOptionPane.showMessageDialog(this,"Username Sudah Digunakan!");
+        }
     }//GEN-LAST:event_btnDaftarActionPerformed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        this.setVisible(false);
+        FormLogin view = new FormLogin();
+        view.setVisible(true);
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments

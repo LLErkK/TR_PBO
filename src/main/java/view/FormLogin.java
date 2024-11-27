@@ -4,6 +4,11 @@
  */
 package view;
 
+import controller.AuthController;
+import controller.UserController;
+
+import javax.swing.*;
+
 /**
  *
  * @author USER
@@ -187,11 +192,25 @@ public class FormLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+        AuthController ac = new AuthController();
+        UserController uc = new UserController();
+        boolean status = ac.login(username,password);
+        if(status){
+            this.dispose();
+            int id = uc.getIdByusername(username);
+            MenuUtama menuView = new MenuUtama(id);
+            menuView.setVisible(true);
+        }else {
+            JOptionPane.showMessageDialog(this,"Username/Password tidak sesuai!");
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnDaftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDaftarActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        FormDaftar view = new FormDaftar();
+        view.setVisible(true);
     }//GEN-LAST:event_btnDaftarActionPerformed
 
     /**
