@@ -1,61 +1,14 @@
 -- Membuat database
 CREATE DATABASE IF NOT EXISTS restoran;
 USE restoran;
-
--- Tabel menu
-CREATE TABLE menu (
-    id_menu INT AUTO_INCREMENT PRIMARY KEY,
-    nama_menu VARCHAR(100) NOT NULL,
-    kategori VARCHAR(50) NOT NULL,
-    harga DECIMAL(10,2) NOT NULL
+-- Tabel users
+CREATE TABLE users(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	username VARCHAR(255) UNIQUE,
+	password VARCHAR(255) ,
+	email VARCHAR(255),
+	role ENUM(admin,user) DEAFULT user
 );
-
--- Tabel pelanggan
-CREATE TABLE pelanggan (
-    id_pelanggan INT AUTO_INCREMENT PRIMARY KEY,
-    nama_pelanggan VARCHAR(100) NOT NULL,
-    no_telepon VARCHAR(15) NOT NULL,
-    gender ENUM(‘pria’,’wanita’) DEFAULT ‘pria’
-);
-
--- Tabel pesanan
-CREATE TABLE pesanan (
-    id_pesanan INT AUTO_INCREMENT PRIMARY KEY,
-    id_pelanggan INT NOT NULL,
-    tanggal_pesanan DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('pending', 'selesai', 'batal') DEFAULT 'pending',
-    FOREIGN KEY (id_pelanggan) REFERENCES pelanggan(id_pelanggan) ON DELETE CASCADE
-);
-
--- Tabel detail_pesanan
-CREATE TABLE detail_pesanan (
-    id_detail INT AUTO_INCREMENT PRIMARY KEY,
-    id_pesanan INT NOT NULL,
-    id_menu INT NOT NULL,
-    jumlah INT NOT NULL,
-    subtotal DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (id_pesanan) REFERENCES pesanan(id_pesanan) ON DELETE CASCADE,
-    FOREIGN KEY (id_menu) REFERENCES menu(id_menu) ON DELETE CASCADE
-);
--- Tabel admin
-CREATE TABLE admin (
- id_admin INT AUTO_INCREMENT PRIMARY KEY,
-username VARCHAR(50) NOT NULL UNIQUE,
-password VARCHAR(255) NOT NULL
-);
-
--- Tabel transaksi
-CREATE TABLE transaksi (
-    id_transaksi INT AUTO_INCREMENT PRIMARY KEY,
-    id_admin INT NOT NULL,
-    id_pesanan INT NOT NULL,
-    total_bayar DECIMAL(10,2) NOT NULL,
-    metode_bayar ENUM('tunai', 'kartu', 'e-wallet') NOT NULL,
-    tanggal_bayar DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_pesanan) REFERENCES pesanan(id_pesanan) ON DELETE CASCADE,
-    ADD FOREIGN KEY (id_admin) REFERENCES admin(id_admin) ON DELETE CASCADE
-);
-
 
 
 
