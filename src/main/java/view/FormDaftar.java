@@ -7,6 +7,7 @@ package view;
 import controller.AuthController;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -71,15 +72,31 @@ public class FormDaftar extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(400, 500));
+        jPanel2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jPanel2KeyTyped(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
         jLabel1.setText("Daftar");
 
+        txtUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUsernameKeyTyped(evt);
+            }
+        });
+
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Email");
 
         txtPassword.setPreferredSize(new java.awt.Dimension(75, 25));
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyTyped(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Password");
@@ -105,6 +122,12 @@ public class FormDaftar extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Username");
+
+        txtUsername1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUsername1KeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -194,10 +217,26 @@ public class FormDaftar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //validasi email
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        return email.matches(emailRegex);
+    }
+
     private void btnDaftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDaftarActionPerformed
         String email = this.txtUsername1.getText();
         String username = this.txtUsername.getText();
         String password = this.txtPassword.getText();
+        //validasi agar tidak dikosongi
+        if(email.isEmpty()||username.isEmpty()||password.isEmpty()){
+            JOptionPane.showMessageDialog(this,"tidak boleh ada yang kosong!");
+            return;
+        }
+        //validasi email
+        if(!this.isValidEmail(email)){
+            JOptionPane.showMessageDialog(this,"Format Email tidak Valid");
+            return;
+        }
         AuthController ac = new AuthController();
         boolean status = ac.signIn(email,username,password);
         if(status){
@@ -215,6 +254,31 @@ public class FormDaftar extends javax.swing.JFrame {
         FormLogin view = new FormLogin();
         view.setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtUsername1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsername1KeyTyped
+        if (evt.getKeyChar() == KeyEvent.VK_SPACE) {
+        evt.consume(); // Mencegah spasi ditambahkan
+        JOptionPane.showMessageDialog(this, "Spasi tidak diperbolehkan!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtUsername1KeyTyped
+
+    private void txtUsernameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsernameKeyTyped
+        if (evt.getKeyChar() == KeyEvent.VK_SPACE) {
+        evt.consume(); // Mencegah spasi ditambahkan
+        JOptionPane.showMessageDialog(this, "Spasi tidak diperbolehkan!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtUsernameKeyTyped
+
+    private void jPanel2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel2KeyTyped
+        
+    }//GEN-LAST:event_jPanel2KeyTyped
+
+    private void txtPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyTyped
+        if (evt.getKeyChar() == KeyEvent.VK_SPACE) {
+        evt.consume(); // Mencegah spasi ditambahkan
+        JOptionPane.showMessageDialog(this, "Spasi tidak diperbolehkan!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtPasswordKeyTyped
 
     /**
      * @param args the command line arguments

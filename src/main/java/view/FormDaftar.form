@@ -104,6 +104,9 @@
           <Dimension value="[400, 500]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jPanel2KeyTyped"/>
+      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -192,6 +195,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtUsername">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtUsernameKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
@@ -207,6 +213,9 @@
               <Dimension value="[75, 25]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPasswordKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -255,6 +264,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtUsername1">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtUsername1KeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
