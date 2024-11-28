@@ -47,5 +47,26 @@ public class UserController {
             return null;
         }
     }
+    public void updateUserById(int id, String email, String username, String password) {
+        String query = "UPDATE users " +
+                "SET username = ?, email = ?, password = ? " +
+                "WHERE id = ?";
+
+        try (   Connection connection = Koneksi.koneksi();
+                PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, username);
+            stmt.setString(2, email);
+            stmt.setString(3, password);
+            stmt.setInt(4, id);
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("User updated successfully!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

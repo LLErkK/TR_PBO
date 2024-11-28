@@ -5,6 +5,7 @@ public class User {
     private String password;
     private String email;
     private String role;
+    private double balance;
     public User() {
 
     }
@@ -44,5 +45,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }

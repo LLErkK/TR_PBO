@@ -33,7 +33,7 @@ public class OrderController {
         keranjang.addColumn("Harga");
         keranjang.addColumn("Tipe");
         keranjang.addColumn("Jumlah");
-        keranjang.addColumn("Total");
+        keranjang.addColumn("Sub Total");
 
         return keranjang;
     }
@@ -177,4 +177,74 @@ public class OrderController {
     //validas saldo apakah cukup
     //jika cukup maka akan dikurangi
     //membuat
+    //id nama harga tipe jumlah SubTotal
+    public boolean createOrder(int id,double total){
+
+        //validasi saldo cukup atau tidak
+        UserController uc = new UserController();
+        User modelUser = uc.getUserById(id);
+        if(modelUser.getBalance()<total){
+            return false;
+        }
+        //create table pesanan
+        String query = "INSERT INTO pesanan (user_id,total) VALUES (?,?)";
+        try(Connection connection = Koneksi.koneksi();
+        PreparedStatement stmt = connection.prepareStatement(query)){
+            stmt.setInt(1,id);
+            stmt.setDouble(2,total);
+            stmt.executeUpdate();
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                // Ambil ID pesanan yang baru dibuat
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int orderId = generatedKeys.getInt(1);
+
+                    // Buat detail pesanan
+                    createDetailOrder(orderId);
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    //mendapatkan id dari kolom id(index 0) dan jumlah dari kolom jumlah(index 4)
+    //mendapatkan subtotal dari kolom subtotal(index 5)
+    //melakukan for loop yang menjalnkan getMenuById
+    public void createDetailOrder(int orderId) {
+        // Mendapatkan jumlah baris dalam keranjang
+        int banyak = keranjang.getRowCount();
+
+        // Query untuk menyimpan detail pesanan
+        String query = "INSERT INTO detail_pesanan (pesanan_id, menu_id, kuantitas, subtotal) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = Koneksi.koneksi();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            // Iterasi melalui semua baris dalam keranjang
+            for (int i = 0; i < banyak; i++) {
+                // Mendapatkan data dari kolom yang sesuai
+                int menuId = (int) keranjang.getValueAt(i, 0);      // Kolom 0: ID Menu
+                int quantity = (int) keranjang.getValueAt(i, 4);   // Kolom 4: Jumlah
+                double subtotal = (double) keranjang.getValueAt(i, 5); // Kolom 5: Subtotal
+
+                // Tambahkan data ke query
+                stmt.setInt(1, orderId);     // ID Pesanan
+                stmt.setInt(2, menuId);      // ID Menu
+                stmt.setInt(3, quantity);    // Jumlah
+                stmt.setDouble(4, subtotal); // Subtotal
+                stmt.addBatch();             // Tambahkan ke batch untuk efisiensi
+            }
+
+            // Eksekusi batch insert
+            stmt.executeBatch();
+            System.out.println("Detail pesanan berhasil disimpan.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
