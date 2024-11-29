@@ -66,7 +66,49 @@ public class OrderController {
             return null;
         }
     }
+    public List<Menu> getAllMenu(){
+        int limit = 10;
+        String query ="SELECT * FROM menu LIMIT ?";
+        try(Connection conn = Koneksi.koneksi();
+            PreparedStatement stmt = conn.prepareStatement(query)){
 
+            stmt.setInt(1,limit);
+
+            ResultSet rs = stmt.executeQuery();
+            List<Menu> menus = new ArrayList<>();
+            while (rs.next()){
+                Menu menu = new Menu();
+                menu.setId(rs.getInt("id"));
+                menu.setNama_menu(rs.getString("nama"));
+                menu.setHarga(rs.getDouble("harga"));
+                menu.setStok(rs.getInt("stok"));
+                menu.setFoto(rs.getString("foto"));
+                menu.setKategori(rs.getString("tipe"));
+
+                menus.add(menu);
+            }
+
+            return menus;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    //search table ketika tidak search
+    public void tampilkanSearchTableDefault(){
+        dtm.getDataVector().removeAllElements();
+        dtm.fireTableDataChanged();
+        List<Menu> menus = getAllMenu();
+        for(Menu menu:menus){
+            Object[] obj = new Object[4];
+            obj[0] = menu.getId();
+            obj[1] = menu.getNama_menu();
+            obj[2] = menu.getHarga();
+            obj[3] = menu.getKategori();
+
+            dtm.addRow(obj);
+        }
+    }
     public void tampilkanSearchTable(String input){
         dtm.getDataVector().removeAllElements();
         dtm.fireTableDataChanged();
@@ -81,6 +123,10 @@ public class OrderController {
             dtm.addRow(obj);
         }
 
+    }
+    public void resetTable(DefaultTableModel df){
+        df.getDataVector().removeAllElements();
+        df.fireTableDataChanged();
     }
     //cara memindahkan data dari table searchtable ke keranjang
     //ketika row diklik maka akan mengambil row id
