@@ -20,8 +20,42 @@ public class HistoriController {
         //id tanggal total
 
     }
+    DefaultTableModel htm = new DefaultTableModel();
+    public DefaultTableModel createHistoryTopUp(){
+        htm.addColumn("ID");
+        htm.addColumn("Jumlah");
+        htm.addColumn("Tanggal");
+        return htm;
+    }
     //mendapatkan data History
     public List<HistoryPesanan> getLatestHistory(int userId){
+        int limit = 20;
+        String query ="SELECT * FROM pesanan WHERE user_id = ? LIMIT ?";
+        try(Connection conn = Koneksi.koneksi();
+            PreparedStatement stmt = conn.prepareStatement(query)){
+            stmt.setInt(1,userId);
+            stmt.setInt(2,limit);
+
+            ResultSet rs = stmt.executeQuery();
+            List<HistoryPesanan> histories = new ArrayList<>();
+            while (rs.next()){
+                HistoryPesanan hp = new HistoryPesanan();
+                hp.setId(rs.getInt("id"));
+                hp.setUser_id(userId);
+                Timestamp timestamp = rs.getTimestamp("tanggal");
+                hp.setTanggal(timestamp.toLocalDateTime());
+                hp.setTotal_harga(rs.getDouble("total"));
+
+                histories.add(hp);
+            }
+
+            return histories;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public List<HistoryPesanan> getLatestHistoryTopUp(int userId){
         int limit = 20;
         String query ="SELECT * FROM history_topup WHERE user_id = ? LIMIT ?";
         try(Connection conn = Koneksi.koneksi();
@@ -60,6 +94,21 @@ public class HistoriController {
            obj[2] = history.getTotal_harga();
 
            dtm.addRow(obj);
+        }
+
+    }
+    //history top up
+    public void displayHistoryTopUpTable(int userId){
+        htm.getDataVector().removeAllElements();
+        htm.fireTableDataChanged();
+        List<HistoryPesanan> histories = getLatestHistoryTopUp(userId);
+        for(HistoryPesanan history:histories){
+            Object[] obj = new Object[3];
+            obj[0] = history.getId();
+            obj[1] = history.getTanggal();
+            obj[2] = history.getTotal_harga();
+
+            dtm.addRow(obj);
         }
 
     }

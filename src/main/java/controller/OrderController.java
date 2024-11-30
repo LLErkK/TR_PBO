@@ -4,37 +4,32 @@ import model.Menu;
 import model.User;
 
 import javax.swing.table.DefaultTableModel;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderController {
 
-//    public Menu getTopSales(){
-//        int limit = 5;
-//
-//    }
     DefaultTableModel dtm = new DefaultTableModel();
     DefaultTableModel keranjang = new DefaultTableModel();
     public DefaultTableModel createSearchTable(){
-        dtm.addColumn("ID");
-        dtm.addColumn("Nama");
-        dtm.addColumn("Harga");
-        dtm.addColumn("Tipe");
-
+        if (dtm.getColumnCount() == 0) { // Hanya tambahkan kolom jika belum ada
+            dtm.addColumn("ID");
+            dtm.addColumn("Nama");
+            dtm.addColumn("Harga");
+            dtm.addColumn("Tipe");
+        }
         return dtm;
     }
     public DefaultTableModel createKeranjangTable(){
-        keranjang.addColumn("ID");
-        keranjang.addColumn("Nama");
-        keranjang.addColumn("Harga");
-        keranjang.addColumn("Tipe");
-        keranjang.addColumn("Jumlah");
-        keranjang.addColumn("Sub Total");
-
+        if(keranjang.getColumnCount()==0){
+            keranjang.addColumn("ID");
+            keranjang.addColumn("Nama");
+            keranjang.addColumn("Harga");
+            keranjang.addColumn("Tipe");
+            keranjang.addColumn("Jumlah");
+            keranjang.addColumn("Sub Total");
+        }
         return keranjang;
     }
     //mencari Menu berdasarkan nama
@@ -96,8 +91,6 @@ public class OrderController {
     }
     //search table ketika tidak search
     public void tampilkanSearchTableDefault(){
-        dtm.getDataVector().removeAllElements();
-        dtm.fireTableDataChanged();
         List<Menu> menus = getAllMenu();
         for(Menu menu:menus){
             Object[] obj = new Object[4];
@@ -148,9 +141,11 @@ public class OrderController {
     public void tampilkanKeranjangTable(){
         keranjang.getDataVector().removeAllElements();
         keranjang.fireTableDataChanged();
+
     }
     //menambahkan ke table keranjang
     public void tambahItemKeranjang(Menu item) {
+
         boolean itemExists = false;
 
         // Iterasi untuk memeriksa apakah item sudah ada di keranjang
@@ -201,12 +196,14 @@ public class OrderController {
             return null;
         }
     }
-    public void resetKeranjang(){
+    public DefaultTableModel resetKeranjang(DefaultTableModel keranjang){
         keranjang.getDataVector().removeAllElements();
         keranjang.fireTableDataChanged();
+
+        return keranjang;
     }
 
-    public double getTotalKeranjang(){
+    public double getTotalKeranjang(DefaultTableModel keranjang){
         if(keranjang.getRowCount()==0){
            return 0;
         }
@@ -224,7 +221,7 @@ public class OrderController {
     //jika cukup maka akan dikurangi
     //membuat
     //id nama harga tipe jumlah SubTotal
-    public boolean createOrder(int id,double total){
+    public boolean createOrder(int id,double total,DefaultTableModel modelTable){
 
         //validasi saldo cukup atau tidak
         UserController uc = new UserController();
@@ -233,34 +230,33 @@ public class OrderController {
             return false;
         }
         //create table pesanan
-        String query = "INSERT INTO pesanan (user_id,total) VALUES (?,?)";
-        try(Connection connection = Koneksi.koneksi();
-        PreparedStatement stmt = connection.prepareStatement(query)){
-            stmt.setInt(1,id);
-            stmt.setDouble(2,total);
-            stmt.executeUpdate();
+        String query = "INSERT INTO pesanan (user_id, total) VALUES (?, ?)";
+        try (Connection connection = Koneksi.koneksi();
+             PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) { // Perhatikan RETURN_GENERATED_KEYS
+            stmt.setInt(1, id);
+            stmt.setDouble(2, total);
+
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
                 // Ambil ID pesanan yang baru dibuat
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     int orderId = generatedKeys.getInt(1);
-
-                    // Buat detail pesanan
-                    createDetailOrder(orderId);
+                    updateUserBalance(id, total);
+                    createDetailOrder(orderId, modelTable);
                     return true;
                 }
             }
-            return false;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
+
     }
     //mendapatkan id dari kolom id(index 0) dan jumlah dari kolom jumlah(index 4)
     //mendapatkan subtotal dari kolom subtotal(index 5)
     //melakukan for loop yang menjalnkan getMenuById
-    public void createDetailOrder(int orderId) {
+    public void createDetailOrder(int orderId,DefaultTableModel keranjang) {
         // Mendapatkan jumlah baris dalam keranjang
         int banyak = keranjang.getRowCount();
 
@@ -292,5 +288,27 @@ public class OrderController {
             e.printStackTrace();
         }
     }
-
+    //coba test 1
+    public Object[] tambahKeranjang(int id_barang){
+        Menu item = getMenuById(id_barang);
+        Object[] obj = new Object[6];
+        obj[0] = item.getId(); // ID
+        obj[1] = item.getNama_menu(); // Nama Menu
+        obj[2] = item.getHarga(); // Harga
+        obj[3] = item.getKategori(); // Kategori
+        obj[4] = 1; // Jumlah (default 1)
+        obj[5] = item.getHarga();
+        return obj;
+    }
+    public void updateUserBalance(int id,double ammount){
+        String query="UPDATE users SET balance = balance - ? WHERE id = ?";
+        try(Connection con = Koneksi.koneksi();
+        PreparedStatement stmt = con.prepareStatement(query)){
+            stmt.setDouble(1,ammount);
+            stmt.setInt(2,id);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -200,7 +200,7 @@ public class FormLogin extends javax.swing.JFrame {
         if(status){
             this.dispose();
             int id = uc.getIdByusername(username);
-            MenuUtama menuView = new MenuUtama(id);
+            MenuView menuView = new MenuView(id);
             menuView.setVisible(true);
         }else {
             JOptionPane.showMessageDialog(this,"Username/Password tidak sesuai!");
