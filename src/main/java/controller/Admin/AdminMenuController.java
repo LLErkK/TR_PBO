@@ -126,4 +126,17 @@ public class AdminMenuController {
             return false;
         }
     }
+    public boolean deleteMenu(int id){
+        String sql = "DELETE FROM menu WHERE id =?";
+        try(Connection connection = Koneksi.koneksi();
+            PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1,id);
+
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

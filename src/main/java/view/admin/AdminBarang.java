@@ -52,6 +52,7 @@ public class AdminBarang extends javax.swing.JFrame {
         btnClear = new javax.swing.JButton();
         lblId = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,6 +149,13 @@ public class AdminBarang extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "makanan", "minuman" }));
 
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,6 +191,8 @@ public class AdminBarang extends javax.swing.JFrame {
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDelete)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnSimpan)
                                 .addGap(26, 26, 26)
                                 .addComponent(btnClear)))
@@ -215,7 +225,8 @@ public class AdminBarang extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSimpan)
-                    .addComponent(btnClear))
+                    .addComponent(btnClear)
+                    .addComponent(btnDelete))
                 .addGap(48, 48, 48))
         );
 
@@ -255,6 +266,35 @@ public class AdminBarang extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if(lblId.getText().equals("id")){
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Apakah Anda yakin ingin menghapus user ini?",
+                "Konfirmasi Hapus",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            AdminMenuController amc = new AdminMenuController();
+            int id = Integer.parseInt(lblId.getText());
+            boolean status = amc.deleteMenu(id);
+
+            if (status) {
+                JOptionPane.showMessageDialog(this, "User berhasil dihapus!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal menghapus user. Silakan coba lagi.");
+            }
+
+            this.dispose();
+            new AdminBarang().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Penghapusan dibatalkan.");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {
         if(lblId.getText().equals("id") && txtNama.getText().isEmpty() && txtHarga.getText().isEmpty()){
@@ -324,6 +364,7 @@ public class AdminBarang extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
