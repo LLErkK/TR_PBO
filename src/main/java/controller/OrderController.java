@@ -187,6 +187,7 @@ public class OrderController {
                 model.setId(rs.getInt("id"));
                 model.setNama_menu(rs.getString("nama"));
                 model.setHarga(rs.getDouble("harga"));
+                model.setKategori(rs.getString("tipe"));
                 return model;
             }else {
                 return null;
