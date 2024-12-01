@@ -4,6 +4,10 @@
  */
 package view;
 
+import controller.StrukController;
+import controller.UserController;
+import model.Struck;
+import model.User;
 import view.Histori;
 
 /**
@@ -11,13 +15,25 @@ import view.Histori;
  * @author USER
  */
 public class struk extends javax.swing.JFrame {
-int id;
+private int id;
+private Struck struck;
     /**
      * Creates new form struk
      */
-    public struk(int id) {
+    public struk(int id, Struck struck) {
         initComponents();
         this.id = id;
+        this.struck = struck;
+        UserController uc = new UserController();
+        User user= uc.getUserById(id);
+        this.lblSNama.setText(user.getUsername());
+        this.lblSId.setText(String.valueOf(struck.getId()));
+        this.lblSTanggal.setText(String.valueOf(struck.getTanggal()));
+        this.lblSTotal.setText(String.valueOf(struck.getTotal()));
+
+        StrukController sc = new StrukController();
+        this.tblStruk.setModel(sc.modelTable(this.struck));
+
     }
 
     /**
@@ -190,6 +206,7 @@ int id;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Histori view = new Histori(this.id);
         view.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -222,7 +239,7 @@ int id;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new struk(0).setVisible(true);
+                new struk(0,new Struck()).setVisible(true);
             }
         });
     }

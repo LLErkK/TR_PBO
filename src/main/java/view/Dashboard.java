@@ -202,6 +202,11 @@ private int id;
         });
 
         jButton4.setText("Histori");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("jLabel5");
 
@@ -406,6 +411,12 @@ private int id;
             }
         }
     }//GEN-LAST:event_txtDSimpanActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Histori histori = new Histori(this.id);
+        this.setVisible(false);
+        histori.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

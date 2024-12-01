@@ -99,6 +99,11 @@ private double nominal;
         jLabel7.setText("jLabel5");
 
         jButton26.setText("Histori");
+        jButton26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton26ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -432,6 +437,12 @@ private double nominal;
         this.nominal=nominal+5_000_000;
         this.lblTotalTopUp.setText(String.valueOf(nominal));
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
+        Histori histori = new Histori(this.id);
+        this.setVisible(false);
+        histori.setVisible(true);
+    }//GEN-LAST:event_jButton26ActionPerformed
 
     /**
      * @param args the command line arguments

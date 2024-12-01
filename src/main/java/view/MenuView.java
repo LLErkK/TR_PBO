@@ -143,6 +143,11 @@ private int id;
         jLabel5.setText("jLabel5");
 
         jButton6.setText("Histori");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -548,6 +553,12 @@ private int id;
             new MenuView(this.id).setVisible(true);
         }
     }//GEN-LAST:event_btnOBayarActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        Histori histori = new Histori(this.id);
+        this.setVisible(false);
+        histori.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void tblOMenuMouseClicked(java.awt.event.MouseEvent evt) {
         //aku ingin mendapatkan id dari baris yang ku pilih

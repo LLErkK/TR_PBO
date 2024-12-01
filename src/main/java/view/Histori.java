@@ -5,6 +5,10 @@
 package view;
 
 
+import controller.HistoryController;
+import model.Struck;
+
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,6 +22,8 @@ private int id;
     public Histori(int id) {
         initComponents();
         this.id= id;
+        HistoryController hc = new HistoryController();
+        this.tblHistori.setModel(hc.modelTable(this.id));
     }
 
     /**
@@ -75,7 +81,6 @@ private int id;
             }
         });
 
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\USER\\Documents\\NetBeansProjects\\TR_PBO-main\\src\\icon\\logosidebar.png")); // NOI18N
         jLabel5.setText("jLabel5");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -111,7 +116,6 @@ private int id;
         jPanel4.setPreferredSize(new java.awt.Dimension(600, 500));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("HISTORY");
 
         tblHistori.setModel(new javax.swing.table.DefaultTableModel(
@@ -125,6 +129,11 @@ private int id;
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblHistori.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHistoriMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblHistori);
 
         jButton5.setText("Print");
@@ -187,6 +196,7 @@ private int id;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Dashboard dashboard = new Dashboard(this.id);
+        this.setVisible(false);
         dashboard.setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -194,24 +204,39 @@ private int id;
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         MenuView menu = new MenuView(this.id);
+        this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         TopUp topup = new TopUp(this.id);
+        setVisible(false);
         topup.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         Histori histori = new Histori(this.id);
+        this.setVisible(false);
         histori.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void tblHistoriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHistoriMouseClicked
+        int rowIndex = tblHistori.getSelectedRow();
+        if(rowIndex!=-1){
+            DefaultTableModel model = (DefaultTableModel) tblHistori.getModel();
+            int id_pesanan = (int) model.getValueAt(rowIndex,0);
+            HistoryController hc = new HistoryController();
+            Struck struck = hc.getDataByPesananId(id_pesanan);
+            this.dispose();
+            new struk(this.id,struck).setVisible(true);
+        }
+    }//GEN-LAST:event_tblHistoriMouseClicked
 
     /**
      * @param args the command line arguments
