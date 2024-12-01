@@ -1,5 +1,6 @@
-package controller;
+package controller.Admin;
 
+import controller.Koneksi;
 import model.HistoryPesanan;
 import model.Menu;
 import model.Struck;
@@ -9,46 +10,45 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryController {
-    public DefaultTableModel createHistoryTable(){
+public class AdminHistoryController {
+    DefaultTableModel createHistoryMenu(){
         DefaultTableModel dtm = new DefaultTableModel();
         if(dtm.getColumnCount()==0){
             dtm.addColumn("ID");
-            dtm.addColumn("Tanggal");
+            dtm.addColumn("User ID");
             dtm.addColumn("Total");
+            dtm.addColumn("Tanggal");
         }
         return dtm;
     }
-    public DefaultTableModel createHistoryTopUpTable(){
+    DefaultTableModel createHistoryTopUp(){
         DefaultTableModel dtm = new DefaultTableModel();
         if(dtm.getColumnCount()==0){
             dtm.addColumn("ID");
+            dtm.addColumn("User ID");
+            dtm.addColumn("Ammount");
             dtm.addColumn("Tanggal");
-            dtm.addColumn("Total");
         }
         return dtm;
     }
 
-    public List<HistoryPesanan> getAllPesananByUserId(int id){
-        String sql = "SELECT * FROM pesanan WHERE user_id = ?";
+    public List<HistoryPesanan> getAllPesanan(){
+        String sql = "SELECT * FROM pesanan";
         try(Connection connection = Koneksi.koneksi();
             PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.setInt(1,id);
-
             ResultSet rs = stmt.executeQuery();
             List<HistoryPesanan> histories = new ArrayList<>();
             while (rs.next()){
                 HistoryPesanan hp = new HistoryPesanan();
                 hp.setId(rs.getInt("id"));
                 hp.setUser_id(rs.getInt("user_id"));
-                Timestamp timestamp = rs.getTimestamp("tanggal");
-                if (timestamp != null) {
-                    hp.setTanggal(timestamp.toLocalDateTime());
-                }
                 hp.setTotal_harga(rs.getDouble("total"));
+                Timestamp timestamp = rs.getTimestamp("tanggal");
+                hp.setTanggal(timestamp.toLocalDateTime());
 
                 histories.add(hp);
             }
@@ -58,23 +58,20 @@ public class HistoryController {
             return null;
         }
     }
-    public List<HistoryPesanan> getAllTopUpByUserId(int id){
-        String sql = "SELECT * FROM history_topup WHERE user_id = ?";
+    //ini untuk yang top up,pakai model yang sama karena strukturnya sama
+    public List<HistoryPesanan> getAllTopUp(){
+        String sql = "SELECT * FROM history_topup";
         try(Connection connection = Koneksi.koneksi();
             PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.setInt(1,id);
-
             ResultSet rs = stmt.executeQuery();
             List<HistoryPesanan> histories = new ArrayList<>();
             while (rs.next()){
                 HistoryPesanan hp = new HistoryPesanan();
                 hp.setId(rs.getInt("id"));
                 hp.setUser_id(rs.getInt("user_id"));
-                Timestamp timestamp = rs.getTimestamp("tanggal");
-                if (timestamp != null) {
-                    hp.setTanggal(timestamp.toLocalDateTime());
-                }
                 hp.setTotal_harga(rs.getDouble("amount"));
+                Timestamp timestamp = rs.getTimestamp("tanggal");
+                hp.setTanggal(timestamp.toLocalDateTime());
 
                 histories.add(hp);
             }
@@ -85,33 +82,33 @@ public class HistoryController {
         }
     }
 
-    public DefaultTableModel modelTable(int user_id){
-        DefaultTableModel dtm = createHistoryTable();
+    public DefaultTableModel modelHistoryPesanan(){
+        DefaultTableModel dtm = createHistoryMenu();
         dtm.getDataVector().removeAllElements();
         dtm.fireTableDataChanged();
-        List<HistoryPesanan> Hisroris= getAllPesananByUserId(user_id);
-        for(HistoryPesanan histori:Hisroris){
-            Object[] obj = new Object[3];
+        List<HistoryPesanan> historis = getAllPesanan();
+        for (HistoryPesanan histori:historis){
+            Object[] obj = new Object[4];
             obj[0] = histori.getId();
-            obj[1] = histori.getTanggal();
+            obj[1] = histori.getUser_id();
             obj[2] = histori.getTotal_harga();
-
+            obj[3] = histori.getTanggal();
 
             dtm.addRow(obj);
         }
         return dtm;
     }
-    public DefaultTableModel modelTableTopUp(int user_id){
-        DefaultTableModel dtm = createHistoryTopUpTable();
+    public DefaultTableModel modelHistoryTopUp(){
+        DefaultTableModel dtm = createHistoryTopUp();
         dtm.getDataVector().removeAllElements();
         dtm.fireTableDataChanged();
-        List<HistoryPesanan> Hisroris= getAllTopUpByUserId(user_id);
-        for(HistoryPesanan histori:Hisroris){
-            Object[] obj = new Object[3];
+        List<HistoryPesanan> historis = getAllTopUp();
+        for (HistoryPesanan histori:historis){
+            Object[] obj = new Object[4];
             obj[0] = histori.getId();
-            obj[1] = histori.getTanggal();
+            obj[1] = histori.getUser_id();
             obj[2] = histori.getTotal_harga();
-
+            obj[3] = histori.getTanggal();
 
             dtm.addRow(obj);
         }
@@ -178,6 +175,4 @@ public class HistoryController {
             throw new RuntimeException("Error retrieving data", e);
         }
     }
-
-
 }

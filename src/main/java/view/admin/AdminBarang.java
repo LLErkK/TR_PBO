@@ -82,8 +82,18 @@ public class AdminBarang extends javax.swing.JFrame {
         });
 
         jButton4.setText("Creat Pengunjung");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("History Barang Belian");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -295,6 +305,18 @@ public class AdminBarang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Penghapusan dibatalkan.");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        AdminPengunjung view = new AdminPengunjung();
+        this.dispose();
+        view.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        AdminHistory view = new AdminHistory();
+        this.dispose();
+        view.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {
         if(lblId.getText().equals("id") && txtNama.getText().isEmpty() && txtHarga.getText().isEmpty()){

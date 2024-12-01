@@ -118,6 +118,11 @@ public class AdminPengunjung extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.png"))); // NOI18N
 
         jButton5.setText("History Barang Belian");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -237,7 +242,9 @@ public class AdminPengunjung extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        AdminBarang view = new AdminBarang();
+        this.dispose();
+        view.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void userTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userTableMouseClicked
@@ -315,6 +322,13 @@ public class AdminPengunjung extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Penghapusan dibatalkan.");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        AdminHistory view = new AdminHistory();
+        this.dispose();
+        view.setVisible(true);
+
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
