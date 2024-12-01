@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2024 at 07:38 AM
+-- Generation Time: Dec 01, 2024 at 02:34 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -46,7 +46,10 @@ INSERT INTO `detail_pesanan` (`id`, `pesanan_id`, `menu_id`, `kuantitas`, `subto
 (3, 5, 1, 3, 45000.00, '2024-12-01 12:09:25'),
 (4, 5, 2, 1, 10000.00, '2024-12-01 12:09:25'),
 (5, 6, 1, 2, 30000.00, '2024-12-01 12:26:15'),
-(6, 6, 2, 3, 30000.00, '2024-12-01 12:26:15');
+(6, 6, 2, 3, 30000.00, '2024-12-01 12:26:15'),
+(7, 8, 2, 1, 10000.00, '2024-12-01 20:51:57'),
+(8, 8, 8, 2, 6000.00, '2024-12-01 20:51:57'),
+(9, 8, 6, 1, 12000.00, '2024-12-01 20:51:57');
 
 -- --------------------------------------------------------
 
@@ -90,7 +93,18 @@ CREATE TABLE `menu` (
 
 INSERT INTO `menu` (`id`, `nama`, `harga`, `stok`, `foto`, `tipe`) VALUES
 (1, 'Udang Goreng', 15000.00, 50, '', 'makanan'),
-(2, 'Ayam Goreng', 10000.00, 50, '', 'makanan');
+(2, 'Ayam Goreng', 10000.00, 50, '', 'makanan'),
+(4, 'Nasi Goreng', 12000.00, NULL, NULL, 'makanan'),
+(5, 'Jus Mangga', 5000.00, NULL, NULL, 'minuman'),
+(6, 'Lotek', 12000.00, NULL, NULL, 'makanan'),
+(7, 'Bakso', 15000.00, NULL, NULL, 'makanan'),
+(8, 'Es Teh', 3000.00, NULL, NULL, 'minuman'),
+(9, 'Es Jeruk', 4000.00, NULL, NULL, 'minuman'),
+(10, 'Ayam Geprek', 19000.00, NULL, NULL, 'makanan'),
+(11, 'Mie Goreng', 5000.00, NULL, NULL, 'makanan'),
+(12, 'Air Es', 1000.00, NULL, NULL, 'minuman'),
+(13, 'Soda Gembira', 10000.00, NULL, NULL, 'minuman'),
+(14, 'Es teh leci', 6000.00, NULL, NULL, 'minuman');
 
 -- --------------------------------------------------------
 
@@ -112,7 +126,9 @@ CREATE TABLE `pesanan` (
 INSERT INTO `pesanan` (`id`, `user_id`, `tanggal`, `total`) VALUES
 (4, 1, '2024-11-30 13:40:58', 35000.00),
 (5, 1, '2024-12-01 05:09:25', 55000.00),
-(6, 1, '2024-12-01 05:26:15', 60000.00);
+(6, 1, '2024-12-01 05:26:15', 60000.00),
+(7, 1, '2024-12-01 13:51:15', 30000.00),
+(8, 1, '2024-12-01 13:51:57', 28000.00);
 
 -- --------------------------------------------------------
 
@@ -134,7 +150,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `balance`) VALUES
-(1, 'test', 'test@gmail.com', 'test', 'user', 140000.00);
+(1, 'test', 'test@gmail.com', 'test', 'user', 82000.00),
+(4, 'admin', 'admin@gmail.com', 'admin', 'admin', 0.00);
 
 --
 -- Indexes for dumped tables
@@ -180,7 +197,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `detail_pesanan`
 --
 ALTER TABLE `detail_pesanan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `history_topup`
@@ -192,19 +209,19 @@ ALTER TABLE `history_topup`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `pesanan`
 --
 ALTER TABLE `pesanan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
