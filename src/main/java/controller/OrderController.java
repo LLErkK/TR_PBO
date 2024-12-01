@@ -3,6 +3,7 @@ package controller;
 import model.Menu;
 import model.User;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.ArrayList;
@@ -228,6 +229,7 @@ public class OrderController {
         UserController uc = new UserController();
         User modelUser = uc.getUserById(id);
         if(modelUser.getBalance()<total){
+
             return false;
         }
         //create table pesanan

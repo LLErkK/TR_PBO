@@ -7,7 +7,7 @@ public class Menu {
     private double harga;
     private int stok;
     private String foto;
-
+    private int terjual;
     public Menu() {
 
     }
@@ -64,5 +64,13 @@ public class Menu {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getTerjual() {
+        return terjual;
+    }
+
+    public void setTerjual(int terjual) {
+        this.terjual = terjual;
     }
 }

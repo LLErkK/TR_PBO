@@ -96,7 +96,7 @@ private double nominal;
             }
         });
 
-        jLabel7.setText("jLabel5");
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logoSideBar.png"))); // NOI18N
 
         jButton26.setText("Histori");
         jButton26.addActionListener(new java.awt.event.ActionListener() {

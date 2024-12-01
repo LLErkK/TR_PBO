@@ -101,6 +101,7 @@ public class HistoryController {
         }
         return dtm;
     }
+
     public DefaultTableModel modelTableTopUp(int user_id){
         DefaultTableModel dtm = createHistoryTopUpTable();
         dtm.getDataVector().removeAllElements();

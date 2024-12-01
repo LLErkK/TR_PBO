@@ -49,6 +49,7 @@ private int id;
         }
 
 
+
     }
 
     /**
@@ -140,7 +141,7 @@ private int id;
             }
         });
 
-        jLabel5.setText("jLabel5");
+        jLabel5.setIcon(new javax.swing.ImageIcon("D:\\kelas_java\\TR_PBO\\src\\main\\resources\\logoSideBar.png")); // NOI18N
 
         jButton6.setText("Histori");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -551,6 +552,8 @@ private int id;
             JOptionPane.showMessageDialog(this,"berhasil membuat orderan!");
             this.dispose();
             new MenuView(this.id).setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this,"Saldo Tidak Cukup!");
         }
     }//GEN-LAST:event_btnOBayarActionPerformed
 
