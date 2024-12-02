@@ -22,6 +22,7 @@ private Struck struck;
      */
     public struk( Struck struck) {
         initComponents();
+        setLocationRelativeTo(null);
         
         this.struck = struck;
         UserController uc = new UserController();

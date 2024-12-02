@@ -22,6 +22,7 @@ private double nominal;
         this.nominal=0;
         this.id = id;
         initComponents();
+        setLocationRelativeTo(null);
         this.lblId.setText(String.valueOf(id));
         this.lblTotalTopUp.setText(String.valueOf(nominal));
         UserController uc = new UserController();

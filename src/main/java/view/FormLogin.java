@@ -20,6 +20,7 @@ public class FormLogin extends javax.swing.JFrame {
      */
     public FormLogin() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -54,6 +55,8 @@ public class FormLogin extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(234, 136, 21));
         jPanel3.setForeground(new java.awt.Color(234, 136, 21));
         jPanel3.setPreferredSize(new java.awt.Dimension(400, 500));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon("D:\\kelas_java\\TR_PBO\\src\\main\\resources\\logoresto.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);

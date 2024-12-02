@@ -20,6 +20,7 @@ public class FormDaftar extends javax.swing.JFrame {
      */
     public FormDaftar() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

@@ -22,6 +22,7 @@ private int id;
      */
     public Histori(int id) {
         initComponents();
+        setLocationRelativeTo(null);
         this.id= id;
         HistoryController hc = new HistoryController();
         this.tblHistori.setModel(hc.modelTable(this.id));

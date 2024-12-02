@@ -22,6 +22,7 @@ private Struck struck;
      */
     public struk(int id, Struck struck) {
         initComponents();
+        setLocationRelativeTo(null);
         this.id = id;
         this.struck = struck;
         UserController uc = new UserController();
@@ -75,13 +76,10 @@ private Struck struck;
         jLabel3.setForeground(new java.awt.Color(234, 136, 21));
         jLabel3.setText("_____________________________________________________________________");
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("ID");
 
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Tanggal");
 
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Nama Pelaggan");
 
         lblSId.setText("id");
@@ -103,7 +101,6 @@ private Struck struck;
         ));
         jScrollPane1.setViewportView(tblStruk);
 
-        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
         jLabel14.setText("Total     :");
 
         lblSTotal.setText("Total");
@@ -123,11 +120,6 @@ private Struck struck;
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(75, 75, 75)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel3))
@@ -156,6 +148,12 @@ private Struck struck;
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblSTotal)))
                 .addGap(32, 32, 32))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(88, 88, 88)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
