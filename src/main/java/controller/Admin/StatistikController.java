@@ -3,6 +3,7 @@ package controller.Admin;
 import controller.Koneksi;
 import model.Menu;
 
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +15,7 @@ import java.sql.Date;
 
 public class StatistikController {
 
-    public List<Menu> getTopSales(Date awal, Date akhir) {
+    public List<Menu> getTopSales(java.util.Date awal, java.util.Date akhir) {
         String sql = """
             SELECT 
                 m.nama AS nama_menu,
@@ -34,8 +35,8 @@ public class StatistikController {
             """;
         try (Connection connection = Koneksi.koneksi();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setDate(1, awal);
-            stmt.setDate(2, akhir);
+            stmt.setDate(1, new Date(awal.getTime()));
+            stmt.setDate(2, new Date(akhir.getTime()));
 
             ResultSet rs = stmt.executeQuery();
             List<Menu> topSales = new ArrayList<>();
@@ -51,7 +52,7 @@ public class StatistikController {
             throw new RuntimeException(e);
         }
     }
-    public List<Menu> getLowestSales(Date awal, Date akhir) {
+    public List<Menu> getLowestSales(java.util.Date awal, java.util.Date akhir) {
         String sql = """
             SELECT 
                 m.nama AS nama_menu,
@@ -71,8 +72,8 @@ public class StatistikController {
             """;
         try (Connection connection = Koneksi.koneksi();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setDate(1, awal);
-            stmt.setDate(2, akhir);
+            stmt.setDate(1, new Date(awal.getTime()));
+            stmt.setDate(2, new Date(akhir.getTime()));
 
             ResultSet rs = stmt.executeQuery();
             List<Menu> lowestSales = new ArrayList<>();
@@ -113,6 +114,59 @@ public class StatistikController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public DefaultTableModel createTopSales(){
+        DefaultTableModel dtm = new DefaultTableModel();
+        if(dtm.getColumnCount()==0){
+            dtm.addColumn("Nama");
+            dtm.addColumn("Harga");
+            dtm.addColumn("Terjual");
+        }
+        return dtm;
+
+    }
+    public DefaultTableModel createLowestSales(){
+        DefaultTableModel dtm = new DefaultTableModel();
+        if(dtm.getColumnCount()==0){
+            dtm.addColumn("Nama");
+            dtm.addColumn("Harga");
+            dtm.addColumn("Terjual");
+        }
+        return dtm;
+
+    }
+
+    public DefaultTableModel modelTop(java.util.Date awal, java.util.Date akhir){
+        DefaultTableModel dtm = createTopSales();
+        dtm.getDataVector().removeAllElements();
+        dtm.fireTableDataChanged();
+        List<Menu> menus = getTopSales(awal,akhir);
+        for(Menu menu:menus){
+            Object[] obj= new Object[3];
+            obj[0] = menu.getNama_menu();
+            obj[1] = menu.getHarga();
+            obj[2] = menu.getTerjual();
+
+            dtm.addRow(obj);
+        }
+        return dtm;
+    }
+
+    public DefaultTableModel modelLow(java.util.Date awal, java.util.Date akhir){
+        DefaultTableModel dtm = createLowestSales();
+        dtm.getDataVector().removeAllElements();
+        dtm.fireTableDataChanged();
+        List<Menu> menus = getLowestSales(awal,akhir);
+        for(Menu menu:menus){
+            Object[] obj= new Object[3];
+            obj[0] = menu.getNama_menu();
+            obj[1] = menu.getHarga();
+            obj[2] = menu.getTerjual();
+
+            dtm.addRow(obj);
+        }
+        return dtm;
     }
 
 }
